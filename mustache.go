@@ -699,7 +699,7 @@ func (tmpl *Template) renderElement(element interface{}, contextChain []interfac
 		if val.IsValid() {
 			if elem.raw {
 				switch reflect.TypeOf(val.Interface()).Kind() {
-				case reflect.Slice, reflect.Map:
+				case reflect.Slice, reflect.Map, reflect.Array:
 					marshalledJson, err := json.Marshal(val.Interface())
 					if err != nil {
 						return err
