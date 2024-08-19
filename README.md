@@ -1,11 +1,11 @@
 # Mustache Template Engine for Go
 
 [![Build Status](https://img.shields.io/travis/cbroglie/mustache.svg)](https://travis-ci.org/cbroglie/mustache)
-[![Go Doc](https://godoc.org/github.com/cbroglie/mustache?status.svg)](https://godoc.org/github.com/cbroglie/mustache)
-[![Go Report Card](https://goreportcard.com/badge/github.com/cbroglie/mustache)](https://goreportcard.com/report/github.com/cbroglie/mustache)
+[![Go Doc](https://godoc.org/github.com/verloop/mustache?status.svg)](https://godoc.org/github.com/verloop/mustache)
+[![Go Report Card](https://goreportcard.com/badge/github.com/verloop/mustache)](https://goreportcard.com/report/github.com/verloop/mustache)
 [![codecov](https://codecov.io/gh/cbroglie/mustache/branch/master/graph/badge.svg)](https://codecov.io/gh/cbroglie/mustache)
-[![Downloads](https://img.shields.io/github/downloads/cbroglie/mustache/latest/total.svg)](https://github.com/cbroglie/mustache/releases)
-[![Latest release](https://img.shields.io/github/release/cbroglie/mustache.svg)](https://github.com/cbroglie/mustache/releases)
+[![Downloads](https://img.shields.io/github/downloads/cbroglie/mustache/latest/total.svg)](https://github.com/verloop/mustache/releases)
+[![Latest release](https://img.shields.io/github/release/cbroglie/mustache.svg)](https://github.com/verloop/mustache/releases)
 
 
 <img src="./images/logo.jpeg" alt="logo" width="100"/>
@@ -24,7 +24,7 @@ I forked [hoisie/mustache](https://github.com/hoisie/mustache) because it does n
 ## CLI Overview
 
 ```bash
-➜  ~ go install github.com/cbroglie/mustache/cmd/mustache@latest
+➜  ~ go install github.com/verloop/mustache/cmd/mustache@latest
 ➜  ~ mustache
 Usage:
   mustache [data] template [flags]
@@ -64,7 +64,7 @@ Also check out some [example mustache files](http://github.com/mustache/mustache
 
 ## Installation
 
-To install the CLI, run `go install github.com/cbroglie/mustache/cmd/mustache@latest`. To use it in a program, run `go get github.com/cbroglie/mustache` and use `import "github.com/cbroglie/mustache"`.
+To install the CLI, run `go install github.com/verloop/mustache/cmd/mustache@latest`. To use it in a program, run `go get github.com/verloop/mustache` and use `import "github.com/verloop/mustache"`.
 
 ----
 
