@@ -2,6 +2,7 @@ package mustache
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"io"
@@ -697,7 +698,16 @@ func (tmpl *Template) renderElement(element interface{}, contextChain []interfac
 
 		if val.IsValid() {
 			if elem.raw {
-				fmt.Fprint(buf, val.Interface())
+				switch reflect.TypeOf(val.Interface()).Kind() {
+				case reflect.Slice, reflect.Map, reflect.Array:
+					marshalledJson, err := json.Marshal(val.Interface())
+					if err != nil {
+						return err
+					}
+					buf.Write(marshalledJson)
+				default:
+					fmt.Fprint(buf, val.Interface())
+				}
 			} else {
 				s := fmt.Sprint(val.Interface())
 				_, _ = buf.Write([]byte(tmpl.escape(s)))
