@@ -470,6 +470,31 @@ func (tmpl *Template) parse() error {
 	}
 }
 
+func lookupIndexedField(name string, v reflect.Value) (reflect.Value, error) {
+	arrayFields := strings.SplitN(name, "[", 2)
+	// if it is a valid index field, e.g. [1] then arrayFields length will be 2
+	// for a valid index, name starts with [ and arrayFields[0] is always empty
+	if len(arrayFields) == 2 && len(arrayFields[0]) == 0 {
+		switch reflect.TypeOf(v.Interface()).Kind() {
+		case reflect.Array, reflect.Slice:
+			indexFields := strings.SplitN(arrayFields[1], "]", 2)
+			index, err := strconv.ParseInt(indexFields[0], 10, 64)
+			if err != nil {
+				return reflect.Value{}, nil
+			}
+			// if it is a valid index field e.g [1] then indexFields length is always 2
+			if len(indexFields) == 2 {
+				// if there are more indexed fields then indexFields[1] length is always more than 0
+				if len(indexFields[1]) != 0 {
+					return lookupIndexedField(indexFields[1], v.Elem().Index(int(index)))
+				}
+				return v.Elem().Index(int(index)), nil
+			}
+		}
+	}
+	return reflect.Value{}, nil
+}
+
 // Evaluate interfaces and pointers looking for a value that can look up the name, via a
 // struct field, method, or map key, and return the result of the lookup.
 func lookup(contextChain []interface{}, name string, allowMissing bool) (reflect.Value, error) {
@@ -482,6 +507,16 @@ func lookup(contextChain []interface{}, name string, allowMissing bool) (reflect
 			return v, err
 		}
 		return lookup([]interface{}{v}, parts[1], allowMissing)
+	}
+
+	if strings.Contains(name, "[") {
+		// trying to access the indexed field of the array
+		arrayFields := strings.SplitN(name, "[", 2)
+		v, err := lookup(contextChain, arrayFields[0], allowMissing)
+		if err != nil {
+			return v, err
+		}
+		return lookupIndexedField("["+arrayFields[1], v)
 	}
 
 	defer func() {
