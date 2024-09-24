@@ -736,3 +736,15 @@ func TestCustomEscape(t *testing.T) {
 		t.Errorf("expected %s, got %v", expected, value)
 	}
 }
+
+func TestArrayIndexedFields(t *testing.T) {
+	value, err := RenderRaw("Hello {{value}} \n 0th index {{value[0]}} \n 1th index {{value[1]}} \n 2[1].a[0]th index {{value[2][1].a[0]}}", true, map[string]interface{}{"value": []interface{}{"world1", "world2", []interface{}{"1", map[string]interface{}{"a": []string{"b", "c"}}, "3"}}})
+	if err != nil {
+		t.Errorf("expected to be rendered, got %v", err)
+	}
+	const expected = "Hello [\"world1\",\"world2\",[\"1\",{\"a\":[\"b\",\"c\"]},\"3\"]] \n 0th index world1 \n 1th index world2 \n 2[1].a[0]th index b"
+
+	if value != expected {
+		t.Errorf("expected %s, got %v", expected, value)
+	}
+}
